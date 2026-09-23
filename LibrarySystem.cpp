@@ -9,12 +9,12 @@ public:
     int ID;
     string title;
     string author;
-     int c;
+     int count;
     Book(int a,string t,string o,int f){
        ID=a;
         title=t;
         author=o;
-        c=f;
+        count=f;
     }
         
     ~Book(){};
@@ -46,12 +46,12 @@ public:
         U.push_back(user);
         cout<<"Done"<<"\n";
     }
-    bool searchkBook(string n){
+    bool searchBook(string n){
         bool found=false;
         for(const auto& book:B){
             if(book.title==n){
                  cout<<"The Book ID : "<<book.ID<<"\n";
-                 cout<<"Number of Book Avaliable : "<<book.c<<"\n";
+                 cout<<"Number of Book Avaliable : "<<book.count<<"\n";
                 found=true;
                 return true;
             }
@@ -71,8 +71,8 @@ public:
             if(u.IDU==userID){userptr=&u;break;}
         }
         if(userptr && bookptr){
-            if(bookptr->c>0){
-            bookptr->c--;
+            if(bookptr->count>0){
+            bookptr->count--;
             userptr->borrowbookID.push_back(bookID);
             cout<<"Done "<<"\n";}
         }
@@ -93,7 +93,7 @@ public:
             bool f=false;
             for(auto it=userptr->borrowbookID.begin();it != userptr->borrowbookID.end();++it){
                 if(*it==bookID){
-                    bookptr->c++;
+                    bookptr->count++;
                     userptr->borrowbookID.erase(it);
                     cout<<"Done"<<"\n";
                     f=true;
@@ -110,7 +110,7 @@ public:
     void printreport(){
         cout<<"All Book in a library : "<<"\n";
         for (const auto& book:B){
-            cout<<"ID : "<<book.ID<<"\t"<<"Title :"<<book.title<<"\t"<<"Author's Name : "<<book.author<<"\t"<<"Number of avaliable from this book : "<<book.c<<"\n";
+            cout<<"ID : "<<book.ID<<"\t"<<"Title :"<<book.title<<"\t"<<"Author's Name : "<<book.author<<"\t"<<"Number of avaliable from this book : "<<book.count<<"\n";
         }
         cout<<"________________"<<"\n";
         cout<<"All Users : "<<"\n";
@@ -181,10 +181,11 @@ int main (){
                 int count;
                 cout<<"Enter Book ID : ";
                 cin>>id;
+                cin.ignore();
                 cout<<"Enter Book Title : ";
-                cin>>Title;
+                getline(cin,Title);
                 cout<<"Enter Book Author : ";
-                cin>>Author;
+                getline(cin,Author);
                 cout<<"Enter Number of Avaliable Books : ";
                 cin>>count;
                 a.AddBook(Book(id,Title,Author,count));
@@ -194,16 +195,18 @@ int main (){
                 string name;
                 cout<<"Enter User ID : ";
                 cin>>idu;
+                cin.ignore();
                 cout<<"Enter User Name : ";
-                cin>>name;
+                getline(cin,name);
                 a.AddUser(User(idu,name));
                 break;
                 }
             case 3:{
                  string searchTitle;
+                 cin.ignore();
                  cout<<"Enter Book Title to Search : ";
-                 cin>>searchTitle;
-                 a.searchkBook(searchTitle);
+                 getline(cin,searchTitle);
+                 a.searchBook(searchTitle);
                  break;}
             case 4:{
                  int userID,bookID;
